@@ -12,6 +12,11 @@ namespace :code do
       opts = ARGV.join(" ")
       sh "dep ensure -add #{opts}"
     end
+
+    desc "Update and sync deps pkgs"  
+    task :sync do
+      sh "dep ensure"
+    end
   end  
 
   namespace :test do 
