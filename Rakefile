@@ -4,6 +4,16 @@
 
 namespace :code do 
 
+  namespace :deps do
+    desc "Install deps pkgs"  
+    task :add do
+      # Remove prg name from global ARGV
+      ARGV.shift
+      opts = ARGV.join(" ")
+      sh "dep ensure -add #{opts}"
+    end
+  end  
+
   namespace :test do 
     desc "Start testing env"
     task "prepare" do 
