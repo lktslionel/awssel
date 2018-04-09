@@ -30,3 +30,15 @@ func DefaultFormatter() Formatter {
 func (f *defaultFormatter) Format(ev Var) string {
 	return fmt.Sprintf("'%s'", ev.String())
 }
+
+type bashExportFormatter struct{}
+
+func (f *bashExportFormatter) Format(ev Var) string {
+	return fmt.Sprintf("export '%s'", ev.String())
+}
+
+// BashExportFormatter return an instance of the bashExportFormatter
+// This exporter prefix the output with the bash 'export' statement
+func BashExportFormatter() Formatter {
+	return &bashExportFormatter{}
+}
