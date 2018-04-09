@@ -1,5 +1,9 @@
 package env
 
+import (
+	"fmt"
+)
+
 // Format is an enum containing all available formats
 type Format int
 
@@ -24,5 +28,5 @@ func DefaultFormatter() Formatter {
 
 // Format creates the string representation of our env var
 func (f *defaultFormatter) Format(ev Var) string {
-	return ev.Name + "=" + ev.Value
+	return fmt.Sprintf("'%s'", ev.String())
 }

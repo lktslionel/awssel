@@ -1,6 +1,7 @@
 package env
 
 import (
+	"fmt"
 	"path"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -28,8 +29,12 @@ func NewVarFromSSMParameter(p *ssm.Parameter) *Var {
 }
 
 // String return the string representation of an evn var
-func (v *Var) String() string { return "" }
+func (v *Var) String() string {
+	return fmt.Sprintf("%s=%s", v.Name, v.Value)
+}
 
 // Export return a string representation of an env var
 // according to the given formatter spec
-func (v *Var) Export(f Formatter) string { return "" }
+func (v *Var) Export(f Formatter) string {
+	return f.Format(*v)
+}
