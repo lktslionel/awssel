@@ -4,7 +4,8 @@
 
 A tool that load all env vars stored in AWS SSM Parameter Store, for a given service.
 
-See [Our Moviations](docs/awssel/motivations.md) for more information about why we build this tool.
+See [Our Moviations doc](docs/awssel/motivations.md) for more information about why we build this tool.
+See [Our Architecture doc](docs/awssel/how-it-works.md) to understand how things work under the hood.
 
 ## Install
 
