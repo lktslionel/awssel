@@ -4,14 +4,22 @@
 [[projects]]
   name = "github.com/aws/aws-sdk-go"
   packages = [
+    ".",
     "aws",
     "aws/awserr",
     "aws/awsutil",
     "aws/client",
     "aws/client/metadata",
+    "aws/corehandlers",
     "aws/credentials",
+    "aws/credentials/ec2rolecreds",
+    "aws/credentials/endpointcreds",
+    "aws/credentials/stscreds",
+    "aws/defaults",
+    "aws/ec2metadata",
     "aws/endpoints",
     "aws/request",
+    "aws/session",
     "aws/signer/v4",
     "internal/sdkio",
     "internal/sdkrand",
@@ -19,8 +27,12 @@
     "private/protocol",
     "private/protocol/json/jsonutil",
     "private/protocol/jsonrpc",
+    "private/protocol/query",
+    "private/protocol/query/queryutil",
     "private/protocol/rest",
-    "service/ssm"
+    "private/protocol/xml/xmlutil",
+    "service/ssm",
+    "service/sts"
   ]
   revision = "61ac2e639a3e5f940b62693f2f1db515e4f0325e"
   version = "v1.13.30"
@@ -75,6 +87,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "6481dc7c1fe8b165cb1d45c0397b7ca25ab4cafec9e29a42b7dddb2f5d0658de"
+  inputs-digest = "2a80b5a0c30e9236ff24c067138f401b5dea70c1a23a30a6a7e3b10312142cdb"
   solver-name = "gps-cdcl"
   solver-version = 1
