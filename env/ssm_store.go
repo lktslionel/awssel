@@ -69,6 +69,6 @@ func NewSSMStore(o ...SSMStoreOptions) *SSMStore {
 // or and error if something went wrong
 //
 // See env.StoreQueryOption for more information about available options
-func (evs *SSMStore) QueryVarsForService(name string, opts StoreQueryOption) ([]*Var, error) {
+func (evs *SSMStore) QueryVarsForService(name string, opts ...StoreQueryOption) ([]*Var, error) {
 	return nil, nil
 }
