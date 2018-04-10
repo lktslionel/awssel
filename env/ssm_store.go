@@ -69,6 +69,18 @@ func NewSSMStore(o ...SSMStoreOptions) *SSMStore {
 // or and error if something went wrong
 //
 // See env.StoreQueryOption for more information about available options
-func (evs *SSMStore) QueryVarsForService(name string, opts ...StoreQueryOption) ([]*Var, error) {
-	return nil, nil
+func (s *SSMStore) QueryVarsForService(name string, opts ...StoreQueryOption) ([]*Var, error) {
+
+	var envars []*Var
+	response, err := s.conn.GetParametersByPath(&ssm.GetParametersByPathInput{})
+
+	if err != nil {
+		return envars, err
+	}
+
+	for _, param := range response.Parameters {
+		envars = append(envars, VarFromSSMParameter(param))
+	}
+
+	return envars, nil
 }

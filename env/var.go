@@ -14,9 +14,9 @@ type Var struct {
 	Value string
 }
 
-// NewVarFromSSMParameter create a new env var object from
+// VarFromSSMParameter create a new env var object from
 // an SSM Paramater Struct
-func NewVarFromSSMParameter(p *ssm.Parameter) *Var {
+func VarFromSSMParameter(p *ssm.Parameter) *Var {
 
 	// Remove prefix from parameter name
 	key := aws.StringValue(p.Name)

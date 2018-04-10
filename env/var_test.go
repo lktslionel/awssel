@@ -41,7 +41,7 @@ func TestVar(t *testing.T) {
 			Value: "/home/username",
 		}
 
-		actual := NewVarFromSSMParameter(param)
+		actual := VarFromSSMParameter(param)
 
 		assert.Equal(t, expected, actual)
 	})

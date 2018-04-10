@@ -29,12 +29,18 @@ func TestSSMStore(t *testing.T) {
 		assert.Implements(t, (*Storer)(nil), NewSSMStore())
 	})
 
-	t.Run("Query a store to get env vars", func(t *testing.T) {
+	t.Run("Get env vars for an non-existing service", func(t *testing.T) {
 		// Get a SSMStore client to first, populate the Store with values
-		// store := NewSSMStore(SSMStoreOptions{
-		// 	endpoint: aws.String("http://localhost:4583"),
-		// })
-		t.Skip()
+		store := NewSSMStore(SSMStoreOptions{
+			endpoint: aws.String("http://localhost:4583"),
+		})
+
+		envStore := Storer(store)
+
+		envvars, _ := envStore.QueryVarsForService("serviceA")
+
+		assert.Empty(t, envvars)
+
 	})
 
 }
