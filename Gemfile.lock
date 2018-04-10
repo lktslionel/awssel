@@ -1,0 +1,22 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    aws-partitions (1.79.0)
+    aws-sdk-core (3.19.0)
+      aws-partitions (~> 1.0)
+      aws-sigv4 (~> 1.0)
+      jmespath (~> 1.0)
+    aws-sdk-ssm (1.10.0)
+      aws-sdk-core (~> 3)
+      aws-sigv4 (~> 1.0)
+    aws-sigv4 (1.0.2)
+    jmespath (1.4.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  aws-sdk-ssm (~> 1.10.0)
+
+BUNDLED WITH
+   1.16.0
