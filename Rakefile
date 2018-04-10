@@ -1,11 +1,8 @@
+require_relative "tasks/populate"
 
-
-
-
-namespace :code do 
-
+namespace :code do
   namespace :deps do
-    desc "Install deps pkgs"  
+    desc "Install deps pkgs"
     task :add do
       # Remove prg name from global ARGV
       ARGV.shift
@@ -13,27 +10,31 @@ namespace :code do
       sh "dep ensure -add #{opts}"
     end
 
-    desc "Update and sync deps pkgs"  
+    desc "Update and sync deps pkgs"
     task :sync do
       sh "dep ensure"
     end
-  end  
+  end
 
-  namespace :test do 
+  namespace :test do
     desc "Start testing env"
-    task "prepare" do 
-      sh "docker-compose up -d" 
+    task "prepare" do
+      sh "docker-compose up -d"
     end
-    
-    desc "Run tests"
-    task "run" do 
-      
-    end
-    
-    desc "Clean testing env"
-    task "clean" do 
-      sh "docker-compose down" 
-    end
-  end 
 
-end 
+    desc "Add test entries"
+    task "seed" do
+      seed("put")
+    end
+
+    desc "Run tests"
+    task "run" do
+    end
+
+    desc "Clean testing env"
+    task "clean" do
+      seed("delete")
+      sh "docker-compose down"
+    end
+  end
+end
