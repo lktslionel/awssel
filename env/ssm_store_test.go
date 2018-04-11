@@ -1,6 +1,7 @@
 package env
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -71,10 +72,10 @@ func TestSSMStore(t *testing.T) {
 			// In tasks/populate.rb file, we define 2 values
 			// for thes key /os/proxy
 			assert.Equal(t, len(envvars), 2)
-
+			fmt.Println(envvars)
 			// Checking that values are correct
 			for _, ev := range envvars {
-				assert.Contains(t, ev.Name, []string{"PROXY_USER", "PROXY_PASS"})
+				assert.Contains(t, []string{"PROXY_USER", "PROXY_PASS"}, ev.Name)
 			}
 		})
 	})
