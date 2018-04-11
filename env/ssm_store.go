@@ -1,6 +1,9 @@
 package env
 
 import (
+	"fmt"
+	"path"
+
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials/stscreds"
 	"github.com/aws/aws-sdk-go/aws/session"
@@ -51,10 +54,13 @@ func NewSSMStore(o ...SSMStoreOptions) *SSMStore {
 
 	// Create the session Objecft
 	sess := session.Must(session.NewSessionWithOptions(sessOpts))
+	fmt.Println("sess", sess)
 
 	if opts.roleARN != "" {
-		// Retrieves the token from sts for that role
+		// Retrieves the token for that role in sts
 		creds := stscreds.NewCredentials(sess, opts.roleARN)
+		fmt.Println("creds", creds)
+
 		cfg = cfg.WithCredentials(creds)
 	}
 
@@ -69,10 +75,23 @@ func NewSSMStore(o ...SSMStoreOptions) *SSMStore {
 // or and error if something went wrong
 //
 // See env.StoreQueryOption for more information about available options
-func (s *SSMStore) QueryVarsForService(name string, opts ...StoreQueryOption) ([]*Var, error) {
+func (s *SSMStore) QueryVarsForService(name string, opts ...StoreQueryOptions) ([]*Var, error) {
 
-	var envars []*Var
-	response, err := s.conn.GetParametersByPath(&ssm.GetParametersByPathInput{})
+	var (
+		envars  []*Var
+		keyPath string
+	)
+
+	// Build the service key path from the given options
+	if len(opts) > 0 {
+		keyPath = path.Join(opts[0].PrefixPath, name)
+	} else {
+		keyPath = name
+	}
+
+	response, err := s.conn.GetParametersByPath(&ssm.GetParametersByPathInput{
+		Path: aws.String(keyPath),
+	})
 
 	if err != nil {
 		return envars, err
