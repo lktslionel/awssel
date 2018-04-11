@@ -1,35 +1,24 @@
 package env
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/endpoints"
 	"github.com/stretchr/testify/assert"
 )
 
-func getStore(p ...string) *SSMStore {
-	purpose := "local"
-	options := SSMStoreOptions{
-		//roleARN:  "arn:aws:iam::721728311103:role/service-role/homer-fn-role",
-		profile:  "fake-profile",
-		endpoint: aws.String("fake.ssm.us-east-2.amazonaws.com"),
-		region:   "us-west-1",
-	}
+const (
+	LocalstackSSMEndpoint = "http://localhost:4583"
+)
 
-	if len(p) > 0 {
-		purpose = p[0]
-	}
+func getMockedSSMStore() *SSMStore {
 
-	switch purpose {
-	case "local":
-		options.endpoint = aws.String("http://localhost:4583")
-		break
-	default:
-		break
-	}
-
-	return NewSSMStore(options)
+	return NewSSMStore(SSMStoreOptions{
+		roleARN:  "arn:aws:iam::721728311103:role/service-role/homer-fn-role",
+		endpoint: aws.String(LocalstackSSMEndpoint),
+		region:   aws.String(endpoints.EuWest1RegionID),
+	})
 }
 
 func TestSSMStore(t *testing.T) {
@@ -40,9 +29,9 @@ func TestSSMStore(t *testing.T) {
 	})
 
 	t.Run("Get a Client with options", func(t *testing.T) {
-		actual := getStore()
+		actual := getMockedSSMStore()
 		assert.NotNil(t, actual)
-		assert.NotNil(t, actual.sess)
+		assert.NotNil(t, actual.conn)
 	})
 
 	t.Run("Implements the Storer interface", func(t *testing.T) {
@@ -52,7 +41,7 @@ func TestSSMStore(t *testing.T) {
 	t.Run("Retrieves env vars", func(t *testing.T) {
 		t.Run("With only an unknown service", func(t *testing.T) {
 			// Get a SSMStore client to first, populate the Store with values
-			store := getStore("local")
+			store := getMockedSSMStore()
 
 			envStore := Storer(store)
 			envvars, _ := envStore.QueryVarsForService("serviceA")
@@ -62,7 +51,7 @@ func TestSSMStore(t *testing.T) {
 
 		t.Run("With a known service but without prefix path", func(t *testing.T) {
 			// Get a SSMStore client to first, populate the Store with values
-			store := getStore("local")
+			store := getMockedSSMStore()
 
 			envStore := Storer(store)
 			envvars, _ := envStore.QueryVarsForService("proxy")
@@ -72,16 +61,10 @@ func TestSSMStore(t *testing.T) {
 
 		t.Run("With a known service with a prefix path", func(t *testing.T) {
 			// Get a SSMStore client to first, populate the Store with values
-			store := getStore("local")
-
-			fmt.Println(store)
-
-			envStore := Storer(store)
-			envvars, err := envStore.QueryVarsForService("proxy", StoreQueryOptions{
+			store := getMockedSSMStore()
+			envvars, _ := store.QueryVarsForService("proxy", StoreQueryOptions{
 				PrefixPath: "/os",
 			})
-
-			fmt.Println("ERROR: ", err)
 
 			assert.NotEmpty(t, envvars)
 			// We chech that the result contains 2 value
