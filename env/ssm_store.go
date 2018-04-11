@@ -1,11 +1,9 @@
 package env
 
 import (
-	"fmt"
 	"path"
 
 	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/credentials/stscreds"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/ssm"
 )
@@ -14,15 +12,14 @@ import (
 // It is used to query SSM Parameter store
 type SSMStore struct {
 	conn *ssm.SSM
-	sess *session.Session
 }
 
 // SSMStoreOptions gather information need to
 // create a session with the AWS SSM service
 type SSMStoreOptions struct {
 	roleARN  string
-	region   string
-	profile  string
+	region   *string
+	insecure *bool
 	endpoint *string
 }
 
@@ -31,42 +28,24 @@ type SSMStoreOptions struct {
 // by the store
 func NewSSMStore(o ...SSMStoreOptions) *SSMStore {
 	var (
-		sessOpts session.Options
-		opts     SSMStoreOptions
-		cfg      *aws.Config
+		opts SSMStoreOptions
+		cfg  *aws.Config
 	)
 
-	// Set config attrs
+	// Set AWS config using given SSM Store options
 	cfg = aws.NewConfig()
 	if len(o) > 0 {
 		opts = o[0]
 
 		cfg.Endpoint = opts.endpoint
-		cfg.Region = aws.String(opts.region)
-
-		// Create session options filled with value provided
-		// by the SSMStoreOptions
-		sessOpts = session.Options{
-			Config:  *cfg,
-			Profile: opts.profile,
-		}
+		cfg.Region = opts.region
 	}
 
 	// Create the session Objecft
-	sess := session.Must(session.NewSessionWithOptions(sessOpts))
-	fmt.Println("sess", sess)
-
-	if opts.roleARN != "" {
-		// Retrieves the token for that role in sts
-		creds := stscreds.NewCredentials(sess, opts.roleARN)
-		fmt.Println("creds", creds)
-
-		cfg = cfg.WithCredentials(creds)
-	}
+	sess := session.Must(session.NewSession())
 
 	return &SSMStore{
-		sess: sess,
-		conn: ssm.New(sess),
+		conn: ssm.New(sess, cfg),
 	}
 }
 
