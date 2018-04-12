@@ -29,7 +29,7 @@ See [Our Moviations doc](docs/awssel/motivations.md) for more information about 
 To install the tool from your shell, run:
 
 ```
-go get -u github.com/Stores-Discount/awssel
+go get -u github.com/lktslionel/awssel
 ```
 
 ## Usage
