@@ -29,6 +29,7 @@ namespace :code do
 
     desc "Run tests"
     task "run" do
+      sh "/usr/local/bin/go test -timeout 30s github.com/lktslionel/awssel/env -run -v"
     end
 
     desc "Clean testing env"
