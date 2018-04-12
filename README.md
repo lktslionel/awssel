@@ -6,6 +6,21 @@ A tool that load all env vars stored in AWS SSM Parameter Store, for a given ser
 
 See [Our Moviations doc](docs/awssel/motivations.md) for more information about why we build this tool and understand how things work under the hood.
 
+
+
+## Contents
+
+  1. [Install]
+  1. [Usage]
+  1. [Examples]
+  1. [TODO]
+  1. [Tests]
+  1. [Guidelines]
+  1. [Contribute]
+  1. [FAQ]
+  1. [References]
+  1. [Maintainers]
+  1. [License]
 ## Install
 
 To install the tool from your shell, run:
@@ -40,7 +55,10 @@ Get all environment variables for `proxy-web` service
 awssel load --service-name proxy-web
 ```
 
+## TODO
 
+* [ ] List errors about AWS Credentials (FAQ)
+* [ ] Add a section explaining how to run this tool in an AWS
 
 ## Tests
 
@@ -102,3 +120,14 @@ See the [faq doc].
 [guidelines doc]: docs/GUIDELINES.md
 [faq doc]: docs/FAQ.md
 [MIT license]: LICENSE
+[Install]: #Install
+[Usage]: #Usage
+[Examples]: #Examples
+[TODO]: #TODO
+[Tests]: #Tests
+[Guidelines]: #Guidelines
+[Contribute]: #Contribute
+[FAQ]: #FAQ
+[References]: #References
+[Maintainers]: #Maintainers
+[License]: #License
