@@ -1,7 +1,9 @@
 package env
 
 import (
+	"fmt"
 	"path"
+	"regexp"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
@@ -57,28 +59,40 @@ func NewSSMStore(o ...SSMStoreOptions) *SSMStore {
 func (s *SSMStore) QueryVarsForService(name string, opts ...StoreQueryOptions) ([]*Var, error) {
 
 	var (
-		envars  []*Var
-		keyPath string
+		envvars       []*Var
+		keyPath       string
+		filterPattern string
 	)
 
 	// Build the service key path from the given options
 	if len(opts) > 0 {
 		keyPath = path.Join(opts[0].PrefixPath, name)
+		filterPattern = opts[0].FilterPattern
 	} else {
 		keyPath = name
 	}
+
+	// Check wether we got a pattern given as query option
+	//isfilterPatternGiven := len(filterPattern) > 0
 
 	response, err := s.conn.GetParametersByPath(&ssm.GetParametersByPathInput{
 		Path: aws.String(keyPath),
 	})
 
 	if err != nil {
-		return envars, err
+		return envvars, err
 	}
 
 	for _, param := range response.Parameters {
-		envars = append(envars, VarFromSSMParameter(param))
+		envvar := VarFromSSMParameter(param)
+
+		isMatched, _ := regexp.MatchString(filterPattern, envvar.Name)
+		if isMatched {
+			envvars = append(envvars, envvar)
+		}
+
+		fmt.Println(envvar.Name, "matchs[", isMatched, "]", filterPattern, "in", envvar)
 	}
 
-	return envars, nil
+	return envvars, nil
 }

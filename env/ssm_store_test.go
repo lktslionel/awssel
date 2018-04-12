@@ -80,4 +80,57 @@ func TestSSMStore(t *testing.T) {
 		})
 	})
 
+	t.Run("Filter env vars using patterns", func(t *testing.T) {
+		t.Run("With awesome Regex", func(t *testing.T) {
+
+			examples := []struct {
+				serviceName string
+				path        string
+				pttrn       string
+				expected    []*Var
+			}{
+				{
+					"proxy",
+					"/os",
+					"^PR",
+					[]*Var{
+						&Var{"PROXY_USER", "os-operator"},
+						&Var{"PROXY_PASS", "784f43631c05`"},
+					},
+				},
+				{
+					"sd-web",
+					"/os/prod/support/IT/core",
+					"OS.*_HTTP[S]?_.*",
+					[]*Var{
+						&Var{"OS_SDWEB_HTTP_URL", "http://www.stores-discount.com"},
+						&Var{"OS_SDWEB_HTTPS_URL", "https://www.stores-discount.com"},
+					},
+				},
+				{
+					"esb",
+					"/os/qa/support/IT/core",
+					".*_PORT$",
+					[]*Var{
+						&Var{"OS_ESB_MULE_PORT", "8080"},
+					},
+				},
+			}
+			store := getMockedSSMStore()
+
+			for _, expl := range examples {
+				envvars, err := store.QueryVarsForService(expl.serviceName, StoreQueryOptions{
+					PrefixPath:    expl.path,
+					FilterPattern: expl.pttrn,
+				})
+
+				assert.Nil(t, err)
+				assert.Equal(t, envvars, expl.expected)
+
+			}
+
+		})
+
+	})
+
 }
