@@ -61,6 +61,10 @@ See the [contributing doc].
 
 See the [faq doc].
 
+## References
+
+* [Golang regex syntax](https://github.com/google/re2/wiki/Syntax)
+
 ## Maintainers
 
 * Lionel T. [@lktslionel](https://twitter.com/lktslionel)
