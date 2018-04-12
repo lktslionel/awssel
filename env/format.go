@@ -4,14 +4,11 @@ import (
 	"fmt"
 )
 
-// Format is an enum containing all available formats
-type Format int
-
 const (
-	_ Format = iota
-
-	// DefaultFormat output envar like <NAME>=<VALUE>
-	DefaultFormat
+	// DefaultFormat output envar like <NAME> = <VALUE>
+	DefaultFormat = "kv"
+	//JSONFormat = "default"
+	//YAMLFormat = "default"
 )
 
 // Formatter is used to format an env var
