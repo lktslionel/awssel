@@ -10,17 +10,20 @@ See [Our Moviations doc](docs/awssel/motivations.md) for more information about 
 
 ## Contents
 
-  1. [Install]
-  1. [Usage]
-  1. [Examples]
-  1. [TODO]
-  1. [Tests]
-  1. [Guidelines]
-  1. [Contribute]
-  1. [FAQ]
-  1. [References]
-  1. [Maintainers]
-  1. [License]
+* [Install]
+* [Usage]
+* [Examples]
+* [TODO]
+* [Tests]
+* [Guidelines]
+* [Contribute]
+* [FAQ]
+* [References]
+* [Maintainers]
+* [License]
+
+<br>
+
 ## Install
 
 To install the tool from your shell, run:
