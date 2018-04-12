@@ -9,9 +9,10 @@ import (
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "awssel",
-	Short: "Load service env vars from AWS SSM Parameter Store",
-	Long:  `A tool that load all env vars stored in AWS SSM Parameter Store, for a given service.`,
+	Use:     "awssel [command] <options>",
+	Version: "0.1.0",
+	Short:   "Load service env vars from AWS SSM Parameter Store",
+	Long:    `A tool that load all env vars stored in AWS SSM Parameter Store, for a given service.`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	//	Run: func(cmd *cobra.Command, args []string) { },
