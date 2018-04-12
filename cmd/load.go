@@ -1,6 +1,8 @@
 package cmd
 
 import (
+	"fmt"
+
 	"github.com/lktslionel/awssel/env"
 	"github.com/spf13/cobra"
 )
@@ -13,11 +15,33 @@ var loadCmd = &cobra.Command{
 AWS SSM Parameter Store for a given service`,
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 
+		var (
+			envvars []*env.Var
+			//formatter env.Formatter
+		)
+
 		// create a SSM Store Client
 		store := env.NewSSMStore(env.SSMStoreOptions{
-			region:   &awsRegion,
-			endpoint: &endpoint,
+			Region:   awsRegion,
+			Endpoint: endpoint,
 		})
+
+		envvars, err = store.QueryVarsForService(serviceName, env.StoreQueryOptions{
+			PrefixPath:    prefixPath,
+			FilterPattern: filterPattern,
+		})
+
+		if err != nil {
+			return err
+		}
+
+		for _, envvar := range envvars {
+			if exportable {
+				fmt.Println(envvar.Export(env.BashExportFormatter()))
+			} else {
+				fmt.Println(envvar)
+			}
+		}
 
 		return
 	},
