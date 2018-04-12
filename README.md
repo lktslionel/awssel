@@ -4,8 +4,7 @@
 
 A tool that load all env vars stored in AWS SSM Parameter Store, for a given service.
 
-See [Our Moviations doc](docs/awssel/motivations.md) for more information about why we build this tool.
-See [Our Architecture doc](docs/awssel/how-it-works.md) to understand how things work under the hood.
+See [Our Moviations doc](docs/awssel/motivations.md) for more information about why we build this tool and understand how things work under the hood.
 
 ## Install
 
@@ -21,7 +20,7 @@ go get -u github.com/Stores-Discount/awssel
 awssel <command> [options]
 ```
 
-### Command
+### Commands
 
 **Awssel** has a only 2 commands : 
 
@@ -44,6 +43,30 @@ awssel load --service-name proxy-web
 
 
 ## Tests
+
+**awssel** is battle tested. We use the [localstack](https://github.com/localstack/localstack) project to mock AWS services.
+In fact, before launch our tests, we prepare our test environment by starting an AWS SSM Mock; running at `http://localhost:4583`.
+
+Preparing the test environment, involves executing the following test fixtures: 
+
+- Start localstack AWS SSM Service
+  ```bash
+  rake code:test:prepare  # Start testing env
+  ```
+- Add test entries into the parameter store. Look into the file [tasks/populate.rb](tasks/populate.rb) for more details.
+  ```bash
+  rake code:test:seed  # Populate SSM with test values
+  ```
+
+At this point, the test environment is ready and you can run the following command to launch our tests:
+
+```bash
+rake code:test:run # Run all tests
+```
+
+##### CAUTION
+> You choose to focus on testing the business logic behind **awssel** and not the CLI UI.
+> Feel free to contribute; see [Contribute](#contribute) section to know how to contribute.
 
 
 ### QA
