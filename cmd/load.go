@@ -1,8 +1,6 @@
 package cmd
 
 import (
-	"fmt"
-
 	"github.com/lktslionel/awssel/env"
 	"github.com/spf13/cobra"
 )
@@ -15,15 +13,11 @@ var loadCmd = &cobra.Command{
 AWS SSM Parameter Store for a given service`,
 	RunE: func(cmd *cobra.Command, args []string) (err error) {
 
-		fmt.Println(args)
-		fmt.Println("serviceName", serviceName)
-		fmt.Println("prefixPath", prefixPath)
-		fmt.Println("awsRegion", awsRegion)
-		fmt.Println("filterPattern", filterPattern)
-		fmt.Println("outputFormat", outputFormat)
-		fmt.Println("exportable", exportable)
-		fmt.Println("awsRole", awsRole)
-		fmt.Println("awsProfile", awsProfile)
+		// create a SSM Store Client
+		store := env.NewSSMStore(env.SSMStoreOptions{
+			region:   &awsRegion,
+			endpoint: &endpoint,
+		})
 
 		return
 	},
@@ -34,6 +28,7 @@ var (
 	serviceName   string
 	prefixPath    string
 	awsRegion     string
+	endpoint      string
 	filterPattern string
 	outputFormat  string
 	exportable    bool
@@ -49,6 +44,7 @@ func init() {
 	loadCmd.Flags().StringVar(&serviceName, "service-name", "", "service name (required)")
 	loadCmd.Flags().StringVar(&prefixPath, "prefix-path", "", "Prefix output string with 'export' statement (required)")
 	loadCmd.Flags().StringVar(&awsRegion, "aws-region", "", "AWS region name (required)")
+	loadCmd.Flags().StringVar(&endpoint, "endpoint", "", "AWS SSM endpoint")
 	loadCmd.Flags().StringVar(&filterPattern, "filter-pattern", "", "regex that every env var name must match")
 	loadCmd.Flags().StringVar(&outputFormat, "output-format", env.DefaultFormat, "env vars's output format")
 	loadCmd.Flags().BoolVar(&exportable, "export", false, "Prefix output string with export statement")

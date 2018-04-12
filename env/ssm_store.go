@@ -20,9 +20,9 @@ type SSMStore struct {
 // create a session with the AWS SSM service
 type SSMStoreOptions struct {
 	roleARN  string
-	region   *string
-	insecure *bool
-	endpoint *string
+	Region   string
+	insecure bool
+	Endpoint string
 }
 
 // NewSSMStore returns a client to query AWS SSM Parameter Store
@@ -39,8 +39,8 @@ func NewSSMStore(o ...SSMStoreOptions) *SSMStore {
 	if len(o) > 0 {
 		opts = o[0]
 
-		cfg.Endpoint = opts.endpoint
-		cfg.Region = opts.region
+		cfg.Endpoint = aws.String(opts.Endpoint)
+		cfg.Region = aws.String(opts.Region)
 	}
 
 	// Create the session Objecft

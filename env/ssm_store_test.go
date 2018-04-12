@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/endpoints"
 	"github.com/stretchr/testify/assert"
 )
@@ -17,8 +16,8 @@ func getMockedSSMStore() *SSMStore {
 
 	return NewSSMStore(SSMStoreOptions{
 		roleARN:  "arn:aws:iam::721728311103:role/service-role/homer-fn-role",
-		endpoint: aws.String(LocalstackSSMEndpoint),
-		region:   aws.String(endpoints.EuWest1RegionID),
+		Endpoint: LocalstackSSMEndpoint,
+		Region:   endpoints.EuWest1RegionID,
 	})
 }
 
