@@ -52,11 +52,61 @@ Command | Description | Options
 
 ## Examples
 
-Get all environment variables for `proxy-web` service
+Get all environment variables for `proxy-web` service, at path `/os` in the region `eu-west-1`.
+We have a localstack instance running on `http://localhost:4583`.
+If you use this tool on AWS SSM, there is no need to provide the `endpoint` option.
 
 ```bash
-awssel load --service-name proxy-web
+awssel load --service-name proxy --prefix-path /os --aws-region eu-west-1 --endpoint http://localhost:4583
+
+# Ouput >
+# 
+# PROXY_USER=web-agent
+# PROXY_PASS=784f43631c05
 ```
+
+### Export
+
+Now if you want to export the output and use it in your script to load those environment variables, add the option `--export` : 
+
+```bash
+awssel load --export --service-name proxy --prefix-path /os --aws-region eu-west-1 --endpoint http://localhost:4583 
+
+# Ouput >
+# 
+# export 'PROXY_USER=web-agent'
+# export 'PROXY_PASS=784f43631c05'
+```
+
+### Filter
+
+You can also apply filter environment varaible names using a regex.  
+
+Without any filter, running the following command with result in : 
+
+```bash
+awssel load --service-name sd-web --prefix-path /os/prod/support/IT/core  --aws-region eu-west-1 --filter-pattern=".*URL"  --endpoint http://localhost:4583 --export
+
+# Ouput >
+# 
+# OS_SDWEB_HTTP_URL=http://www.my-web-service.com
+# OS_SDWEB_HTTPS_URL=https://www.my-web-service.com
+# OS_SDWEB_DOMAIN=my-web-service.com
+```
+
+Now, let says we want to get only the HTTPS URL of our `sd-web` service; we can use the option `--filter-pattern` to do so:
+
+
+```bash
+awssel load --filter-pattern='.*HTTPS.*_URL'--service-name sd-web --prefix-path /os/prod/support/IT/core  --aws-region eu-west-1   --endpoint http://localhost:4583 
+
+# Ouput >
+# 
+# OS_SDWEB_HTTPS_URL=https://www.my-web-service.com
+```
+
+> I used a slighly complicated regex to show you that the tool support any regex, as long as it is valid.
+> See [References] to get an idea of the regex syntax supported by `awssel`.
 
 ## TODO
 
