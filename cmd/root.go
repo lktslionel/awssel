@@ -29,7 +29,6 @@ func Execute() {
 
 func init() {
 
-	rootCmd.PersistentFlags().StringP("test")
 	cobra.OnInitialize(initConfig)
 
 }
