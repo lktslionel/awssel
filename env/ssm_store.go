@@ -1,7 +1,6 @@
 package env
 
 import (
-	"fmt"
 	"path"
 	"regexp"
 
@@ -90,8 +89,6 @@ func (s *SSMStore) QueryVarsForService(name string, opts ...StoreQueryOptions) (
 		if isMatched {
 			envvars = append(envvars, envvar)
 		}
-
-		fmt.Println(envvar.Name, "matchs[", isMatched, "]", filterPattern, "in", envvar)
 	}
 
 	return envvars, nil
