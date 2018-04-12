@@ -8,9 +8,9 @@ RAW_ENTRIES = <<-ENTRIES
 /os/api/API_ID                                      | 0ac41e50-3364-11e8-9d7e 
 /os/proxy/PROXY_USER                                | os-operator             
 /os/proxy/PROXY_PASS                                | 784f43631c05`
-/os/prod/support/IT/core/sd-web/OS_SDWEB_URL        | stores-discount.com
-/os/prod/support/IT/core/sd-web/OS_SDWEB_HTTP_URL   | http://www.stores-discount.com
-/os/prod/support/IT/core/sd-web/OS_SDWEB_HTTPS_URL  | https://www.stores-discount.com
+/os/prod/support/IT/core/sd-web/OS_SDWEB_URL        | sd-web.com
+/os/prod/support/IT/core/sd-web/OS_SDWEB_HTTP_URL   | http://www.sd-web.com
+/os/prod/support/IT/core/sd-web/OS_SDWEB_HTTPS_URL  | https://www.sd-web.com
 /os/qa/support/IT/core/esb/OS_ESB_MULE_HOST         | esb
 /os/qa/support/IT/core/esb/OS_ESB_MULE_PORT         | 8080
 /os/qa/support/IT/core/esb/OS_ESB_MULE_HTTP_URL     | http://esb

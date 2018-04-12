@@ -102,8 +102,8 @@ func TestSSMStore(t *testing.T) {
 					"/os/prod/support/IT/core",
 					"OS.*_HTTP[S]?_.*",
 					[]*Var{
-						&Var{"OS_SDWEB_HTTP_URL", "http://www.stores-discount.com"},
-						&Var{"OS_SDWEB_HTTPS_URL", "https://www.stores-discount.com"},
+						&Var{"OS_SDWEB_HTTP_URL", "http://www.sd-web.com"},
+						&Var{"OS_SDWEB_HTTPS_URL", "https://www.sd-web.com"},
 					},
 				},
 				{
