@@ -176,7 +176,7 @@ See the [faq doc].
 [Install]: #install
 [Usage]: #usage
 [Examples]: #examples
-[TODO]: #tODO
+[TODO]: #todo
 [Tests]: #tests
 [Guidelines]: #guidelines
 [Contribute]: #contribute
