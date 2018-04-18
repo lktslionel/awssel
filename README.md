@@ -173,14 +173,14 @@ See the [faq doc].
 [guidelines doc]: docs/GUIDELINES.md
 [faq doc]: docs/FAQ.md
 [MIT license]: LICENSE
-[Install]: #Install
-[Usage]: #Usage
-[Examples]: #Examples
-[TODO]: #TODO
-[Tests]: #Tests
-[Guidelines]: #Guidelines
-[Contribute]: #Contribute
-[FAQ]: #FAQ
-[References]: #References
-[Maintainers]: #Maintainers
-[License]: #License
+[Install]: #install
+[Usage]: #usage
+[Examples]: #examples
+[TODO]: #tODO
+[Tests]: #tests
+[Guidelines]: #guidelines
+[Contribute]: #contribute
+[FAQ]: #fAQ
+[References]: #references
+[Maintainers]: #maintainers
+[License]: #license
