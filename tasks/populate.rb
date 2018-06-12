@@ -14,8 +14,20 @@ RAW_ENTRIES = <<-ENTRIES
 /os/qa/support/IT/core/common/OS_LDAP_HOST          | ldap
 /os/qa/support/IT/core/common/OS_ACTIVE             | true
 /os/qa/support/IT/core/esb/ESB_HOST                 | esb
-/os/qa/support/IT/core/esb/ESB_PORT                 | 8080
+/os/qa/support/IT/core/esb/OS_ESB_MULE_PORT         | 8080
 /os/qa/support/IT/core/esb/ESB_HTTP_URL             | http://esb
+/os/staging/support/it/core/common/OS_COUNT_1    | 1 
+/os/staging/support/it/core/common/OS_COUNT_2    | 2 
+/os/staging/support/it/core/common/OS_COUNT_3    | 3 
+/os/staging/support/it/core/common/OS_COUNT_4    | 4 
+/os/staging/support/it/core/common/OS_COUNT_5    | 5 
+/os/staging/support/it/core/common/OS_COUNT_6    | 6 
+/os/staging/support/it/core/common/OS_COUNT_7    | 7 
+/os/staging/support/it/core/common/OS_COUNT_8    | 8 
+/os/staging/support/it/core/common/OS_COUNT_9    | 9 
+/os/staging/support/it/core/common/OS_COUNT_10   | 10
+/os/staging/support/it/core/common/OS_COUNT_11   | 11
+/os/staging/support/it/core/common/OS_COUNT_12   | 12
 ENTRIES
 
 def seed(action)

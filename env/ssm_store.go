@@ -9,6 +9,12 @@ import (
 	"github.com/aws/aws-sdk-go/service/ssm"
 )
 
+var (
+	// AwsselDefaultEnvvarsLimit is the max number of values
+	// that it is retrieved from the SSM store
+	AwsselDefaultEnvvarsLimit int = 100
+)
+
 // SSMStore is an implementation of a store.
 // It is used to query SSM Parameter store
 type SSMStore struct {
@@ -74,21 +80,30 @@ func (s *SSMStore) QueryVarsForService(name string, opts ...StoreQueryOptions) (
 	// Check wether we got a pattern given as query option
 	//isfilterPatternGiven := len(filterPattern) > 0
 
-	response, err := s.conn.GetParametersByPath(&ssm.GetParametersByPathInput{
+	params := ssm.GetParametersByPathInput{
 		Path: aws.String(keyPath),
-	})
+	}
+
+	pageCount := 0
+	err := s.conn.GetParametersByPathPages(&params,
+		func(page *ssm.GetParametersByPathOutput, lastPage bool) bool {
+			pageCount++
+
+			for _, SSMParam := range page.Parameters {
+				envvar := VarFromSSMParameter(SSMParam)
+
+				isMatched, _ := regexp.MatchString(filterPattern, envvar.Name)
+				if isMatched {
+					envvars = append(envvars, envvar)
+				}
+			}
+
+			return pageCount <= AwsselDefaultEnvvarsLimit
+
+		})
 
 	if err != nil {
 		return envvars, err
-	}
-
-	for _, param := range response.Parameters {
-		envvar := VarFromSSMParameter(param)
-
-		isMatched, _ := regexp.MatchString(filterPattern, envvar.Name)
-		if isMatched {
-			envvars = append(envvars, envvar)
-		}
 	}
 
 	return envvars, nil
