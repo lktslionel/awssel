@@ -11,9 +11,11 @@ RAW_ENTRIES = <<-ENTRIES
 /os/prod/support/IT/core/sd-web/OS_SDWEB_URL        | sd-web.com
 /os/prod/support/IT/core/sd-web/OS_SDWEB_HTTP_URL   | http://www.sd-web.com
 /os/prod/support/IT/core/sd-web/OS_SDWEB_HTTPS_URL  | https://www.sd-web.com
-/os/qa/support/IT/core/esb/OS_ESB_MULE_HOST         | esb
-/os/qa/support/IT/core/esb/OS_ESB_MULE_PORT         | 8080
-/os/qa/support/IT/core/esb/OS_ESB_MULE_HTTP_URL     | http://esb
+/os/qa/support/IT/core/common/OS_LDAP_HOST          | ldap
+/os/qa/support/IT/core/common/OS_ACTIVE             | true
+/os/qa/support/IT/core/esb/ESB_HOST                 | esb
+/os/qa/support/IT/core/esb/ESB_PORT                 | 8080
+/os/qa/support/IT/core/esb/ESB_HTTP_URL             | http://esb
 ENTRIES
 
 def seed(action)
