@@ -132,4 +132,26 @@ func TestSSMStore(t *testing.T) {
 
 	})
 
+	t.Run("Return more than the default MaxValues (10)", func(t *testing.T) {
+		t.Run("When we have more than 10 env values", func(t *testing.T) {
+
+			sample := struct {
+				serviceName string
+				path        string
+			}{
+				"common",
+				"/os/staging/support/it/core",
+			}
+
+			store := getMockedSSMStore()
+
+			envvars, _ := store.QueryVarsForService(sample.serviceName, StoreQueryOptions{
+				PrefixPath: sample.path,
+			})
+
+			assert.True(t, len(envvars) > 10)
+
+		})
+	})
+
 }
