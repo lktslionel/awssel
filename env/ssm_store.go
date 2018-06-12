@@ -1,12 +1,19 @@
 package env
 
 import (
+	"context"
 	"path"
 	"regexp"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/ssm"
+)
+
+var (
+	// AwsselDefaultEnvvarsLimit is the max number of values
+	// that it is retrieved from the SSM store
+	AwsselDefaultEnvvarsLimit int64 = 100
 )
 
 // SSMStore is an implementation of a store.
@@ -74,9 +81,22 @@ func (s *SSMStore) QueryVarsForService(name string, opts ...StoreQueryOptions) (
 	// Check wether we got a pattern given as query option
 	//isfilterPatternGiven := len(filterPattern) > 0
 
-	response, err := s.conn.GetParametersByPath(&ssm.GetParametersByPathInput{
-		Path: aws.String(keyPath),
-	})
+	params := ssm.GetParametersByPathInput{
+		Path:       aws.String(keyPath),
+		MaxResults: aws.Int64(AwsselDefaultEnvvarsLimit),
+	}
+
+	ctx := context.Background()
+
+	requestPager := request.Pagination{
+		NewRequest: func() (*request.Request, error) {
+			req, _ := s.conn.GetParametersByPath(&params)
+			req.SetContext(ctx)
+			return req, nil
+		},
+	}
+
+	response, err := 
 
 	if err != nil {
 		return envvars, err
