@@ -1,7 +1,6 @@
 package env
 
 import (
-	"context"
 	"path"
 	"regexp"
 
@@ -13,7 +12,7 @@ import (
 var (
 	// AwsselDefaultEnvvarsLimit is the max number of values
 	// that it is retrieved from the SSM store
-	AwsselDefaultEnvvarsLimit int64 = 100
+	AwsselDefaultEnvvarsLimit int = 100
 )
 
 // SSMStore is an implementation of a store.
@@ -82,33 +81,29 @@ func (s *SSMStore) QueryVarsForService(name string, opts ...StoreQueryOptions) (
 	//isfilterPatternGiven := len(filterPattern) > 0
 
 	params := ssm.GetParametersByPathInput{
-		Path:       aws.String(keyPath),
-		MaxResults: aws.Int64(AwsselDefaultEnvvarsLimit),
+		Path: aws.String(keyPath),
 	}
 
-	ctx := context.Background()
+	pageCount := 0
+	err := s.conn.GetParametersByPathPages(&params,
+		func(page *ssm.GetParametersByPathOutput, lastPage bool) bool {
+			pageCount++
 
-	requestPager := request.Pagination{
-		NewRequest: func() (*request.Request, error) {
-			req, _ := s.conn.GetParametersByPath(&params)
-			req.SetContext(ctx)
-			return req, nil
-		},
-	}
+			for _, SSMParam := range page.Parameters {
+				envvar := VarFromSSMParameter(SSMParam)
 
-	response, err := 
+				isMatched, _ := regexp.MatchString(filterPattern, envvar.Name)
+				if isMatched {
+					envvars = append(envvars, envvar)
+				}
+			}
+
+			return pageCount <= AwsselDefaultEnvvarsLimit
+
+		})
 
 	if err != nil {
 		return envvars, err
-	}
-
-	for _, param := range response.Parameters {
-		envvar := VarFromSSMParameter(param)
-
-		isMatched, _ := regexp.MatchString(filterPattern, envvar.Name)
-		if isMatched {
-			envvars = append(envvars, envvar)
-		}
 	}
 
 	return envvars, nil
